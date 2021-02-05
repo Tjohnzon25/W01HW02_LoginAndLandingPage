@@ -1,7 +1,11 @@
 package com.example.wk01hw02_loginandlandingpage;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,13 +19,24 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Retrofit extends AppCompatActivity {
 
     private TextView textViewResult;
+    private TextView welcomeTextView;
 
+    private String num, welcome;
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.retrofit);
 
         textViewResult = findViewById(R.id.text_view_result);
+        welcomeTextView = findViewById(R.id.welcomeTextView);
+
+        Intent intent = getIntent();
+        num = intent.getStringExtra("num");
+        welcome = intent.getStringExtra("welcomeUser");
+
+        welcomeTextView.setText("Welcome " + welcome);
 
         retrofit2.Retrofit retrofit = new retrofit2.Retrofit.Builder()
                 .baseUrl("https://jsonplaceholder.typicode.com/")
@@ -42,15 +57,19 @@ public class Retrofit extends AppCompatActivity {
 
                 List<Post> posts = response.body();
 
+                int number = Integer.parseInt(num);
+                System.out.println("NUMBER IN RETROFIT: " + number);
+
                 for(Post post: posts){
-                    String content = "";
-                    content += "ID: " + post.getId() + "\n";
-                    content += "User ID: " + post.getUserId() + "\n";
-                    content += "Title: " + post.getTitle() + "\n";
-                    content += "Text: " + post.getText() + "\n\n";
 
-                    textViewResult.append(content);
-
+                    if(post.getUserId() == number){
+                        String content = "";
+                        content += "ID: " + post.getId() + "\n";
+                        content += "User ID: " + post.getUserId() + "\n";
+                        content += "Title: " + post.getTitle() + "\n";
+                        content += "Text: " + post.getText() + "\n\n";
+                        textViewResult.append(content);
+                    }
                 }
             }
 

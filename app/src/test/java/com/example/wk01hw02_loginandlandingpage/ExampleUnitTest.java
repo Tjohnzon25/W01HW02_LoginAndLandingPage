@@ -10,8 +10,16 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void testUsername(){
+        String a = "Apple_1";
+        assertEquals("Apple_1", a);
+    }
+
+    @Test
+    public void testPassword(){
+        String password = "Fruit_1";
+        assertEquals("Fruit_1", password);
     }
 }
